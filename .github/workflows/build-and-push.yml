@@ -28,7 +28,19 @@ jobs:
           push: true
           tags: ccconreg.azurecr.io/hello-world-app:${{ github.sha }}
           file: ./Dockerfile
+          
   deployToAKS:
     runs-on: ubuntu-latest
+    needs: [buildImage]
+    environment: Production
     steps:
-      - run: echo "hello"
+      - name: Check out repo code
+        uses: actions/checkout@v3
+        
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: 'caf1b1e7-3e49-453e-967f-d442db52e447'
+          tenant-id: 'd3275226-ed38-4275-aa8c-883c16f01d9e'
+          subscription-id: '98a3196f-6832-4fbc-b17d-84d0c75b73ab'
+      - run: echo "Azure login successfully"
