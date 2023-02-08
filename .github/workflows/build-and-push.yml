@@ -3,18 +3,20 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches: ['master']
-  workflow_dispatch: jobs:
+  workflow_dispatch:
+
+jobs:
   buildImage:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Azure Container Registry Login
         uses: Azure/docker-login@v1
         with:
-          # Container registry username
+          # Container registry username
           username: 'ccconreg' 
           # Container registry password
           password: 'dRCHShz45snIg3FA+QI64Nm1zZseE6myR66Gmhm/lC+ACRCqHv13'
