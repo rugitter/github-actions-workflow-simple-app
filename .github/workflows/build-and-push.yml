@@ -43,4 +43,8 @@ jobs:
           client-id: 'caf1b1e7-3e49-453e-967f-d442db52e447'
           tenant-id: 'd3275226-ed38-4275-aa8c-883c16f01d9e'
           subscription-id: '98a3196f-6832-4fbc-b17d-84d0c75b73ab'
-      - run: echo "Azure login successfully"
+#       - run: echo "Azure login successfully"
+      - name: Setup kubelogin
+        uses: Azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.25'
