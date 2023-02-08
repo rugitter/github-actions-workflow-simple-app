@@ -24,7 +24,7 @@ on:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ccdemo/hello-world-app:${{ github.sha }}
+          tags: ccconreg.azurecr.io/hello-world-app:${{ github.sha }}
           file: ./Dockerfile
   deployToAKS:
     runs-on: ubuntu-latest
