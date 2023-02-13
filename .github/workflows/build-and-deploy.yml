@@ -29,7 +29,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ccdemo0802.azurecr.io/hello-world-app${{ github.sha }}
+          tags: ccdemo0802.azurecr.io/hello-world-app:${{ github.sha }}
           file: ./Dockerfile
 
   deploytoAKS:
