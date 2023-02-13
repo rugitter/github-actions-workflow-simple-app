@@ -34,5 +34,43 @@ jobs:
 
   deploytoAKS:
     runs-on: ubuntu-latest
+    needs: [buildImage]
     steps:
-      - run: echo "Deploy"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        
+      # Log in with your Azure credentials
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: 'caf1b1e7-3e49-453e-967f-d442db52e447'
+          tenant-id: 'd3275226-ed38-4275-aa8c-883c16f01d9e'
+          subscription-id: '98a3196f-6832-4fbc-b17d-84d0c75b73ab'
+      
+      - name: Setup kubelogin
+        uses: Azure/use-kubelogin@v1
+    
+      - name: Azure Kubernetes set context
+        uses: Azure/aks-set-context@v3
+        with:
+          # Resource Group Name
+          resource-group: 'github-action-rg'
+          # AKS Cluster Name
+          cluster-name: 'ccdemo0802'
+          # AKS Cluster Subscription
+          subscription: '98a3196f-6832-4fbc-b17d-84d0c75b73ab'
+          # Get cluster admin credentials. Values: true or false
+          admin: 'false'
+          # Enables kubelogin for non-admin user scenario. Values: true or false
+          use-kubelogin: 'true'
+        
+      # Deploys application based on given manifest file
+      - name: Deploys application
+        uses: Azure/k8s-deploy@v4
+        with:
+          action: deploy
+          manifests: |
+            kubernetes/hello-world-deployment.yaml
+            kubernetes/hello-world-service.yaml
+          images: |
+            ccdemo0802.azurecr.io/hello-world-app:${{ github.sha }}
