@@ -60,6 +60,7 @@ jobs:
       id-token: write
 
     runs-on: ubuntu-latest
+    environment: Production
     needs: [buildImage]
     
     steps:
